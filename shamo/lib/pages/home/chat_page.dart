@@ -10,11 +10,13 @@ class ChatPage extends StatelessWidget {
     Widget header() {
       return AppBar(
         elevation: 0,
-        title: Text("Message Support",
-            style: primaryTextStyle.copyWith(
-              fontSize: 18,
-              fontWeight: medium,
-            )),
+        title: Text(
+          "Message Support",
+          style: primaryTextStyle.copyWith(
+            fontSize: 18,
+            fontWeight: medium,
+          ),
+        ),
         centerTitle: true,
         backgroundColor: backgroundColor1,
         automaticallyImplyLeading: false,
