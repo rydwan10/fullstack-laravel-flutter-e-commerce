@@ -21,7 +21,9 @@ class _MainPageState extends State<MainPage> {
         margin: const EdgeInsets.only(bottom: 12),
         child: FittedBox(
           child: FloatingActionButton(
-            onPressed: () {},
+            onPressed: () {
+              Navigator.pushNamed(context, "/cart");
+            },
             backgroundColor: secondaryColor,
             child: Image.asset(
               "assets/icon_cart.png",
