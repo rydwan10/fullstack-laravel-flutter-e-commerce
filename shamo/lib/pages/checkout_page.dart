@@ -117,7 +117,7 @@ class CheckoutPage extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Image.asset(
-                          "assets/icon_store_location.png",
+                          "assets/icon_your_location.png",
                           width: 50,
                         ),
                         const SizedBox(

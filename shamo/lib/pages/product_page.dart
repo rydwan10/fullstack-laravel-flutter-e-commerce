@@ -137,6 +137,7 @@ class _ProductPageState extends State<ProductPage> {
         decoration: BoxDecoration(
             image: DecorationImage(
               image: AssetImage(imageUrl),
+              fit: BoxFit.cover,
             ),
             borderRadius: BorderRadius.circular(6)),
       );
