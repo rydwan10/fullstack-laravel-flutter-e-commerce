@@ -34,7 +34,7 @@ class _ProductPageState extends State<ProductPage> {
 
   @override
   Widget build(BuildContext context) {
-    Future<void> showSuccessDialg() async {
+    Future<void> showSuccessDialog() async {
       return showDialog(
         context: context,
         builder: (BuildContext context) => Container(
@@ -406,7 +406,7 @@ class _ProductPageState extends State<ProductPage> {
                       height: 54,
                       child: TextButton(
                         onPressed: () {
-                          showSuccessDialg();
+                          showSuccessDialog();
                         },
                         style: TextButton.styleFrom(
                           shape: RoundedRectangleBorder(
