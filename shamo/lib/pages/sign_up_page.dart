@@ -1,7 +1,12 @@
+import 'dart:developer';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
+import 'package:shamo/providers/auth_provider.dart';
 import 'package:shamo/theme.dart';
+import 'package:shamo/widgets/loading_button.dart';
 
 class SignUpPage extends StatefulWidget {
   const SignUpPage({Key? key}) : super(key: key);
@@ -11,7 +16,13 @@ class SignUpPage extends StatefulWidget {
 }
 
 class _SignUpPageState extends State<SignUpPage> {
+  TextEditingController nameController = TextEditingController(text: '');
+  TextEditingController emailController = TextEditingController(text: '');
+  TextEditingController usernameController = TextEditingController(text: '');
+  TextEditingController passwordController = TextEditingController(text: '');
+
   bool _obscureText = true;
+  bool _isLoading = false;
 
   void _toggleShowPassword() {
     setState(() {
@@ -21,6 +32,39 @@ class _SignUpPageState extends State<SignUpPage> {
 
   @override
   Widget build(BuildContext context) {
+    AuthProvider authProvider = Provider.of<AuthProvider>(context);
+
+    handleSignUp() async {
+      setState(() {
+        _isLoading = true;
+      });
+
+      bool registerUser = await authProvider.register(
+        name: nameController.text,
+        username: usernameController.text,
+        email: emailController.text,
+        password: passwordController.text,
+      );
+
+      if (registerUser == true) {
+        Navigator.pushNamed(context, "/home");
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            backgroundColor: alertColor,
+            content: const Text(
+              "Failed to register",
+              textAlign: TextAlign.center,
+            ),
+          ),
+        );
+      }
+
+      setState(() {
+        _isLoading = false;
+      });
+    }
+
     Widget header() {
       return Container(
           margin: const EdgeInsets.only(top: 30),
@@ -74,12 +118,14 @@ class _SignUpPageState extends State<SignUpPage> {
                     width: 16,
                   ),
                   Expanded(
-                      child: TextFormField(
-                    style: primaryTextStyle,
-                    decoration: InputDecoration.collapsed(
-                        hintText: "Your Full Name",
-                        hintStyle: subtitleTextStyle),
-                  ))
+                    child: TextFormField(
+                      controller: nameController,
+                      style: primaryTextStyle,
+                      decoration: InputDecoration.collapsed(
+                          hintText: "Your Full Name",
+                          hintStyle: subtitleTextStyle),
+                    ),
+                  ),
                 ],
               ),
             ),
@@ -106,19 +152,23 @@ class _SignUpPageState extends State<SignUpPage> {
               color: backgroundColor2,
               borderRadius: BorderRadius.circular(16),
             ),
-            child: Row(children: [
-              Image.asset(
-                "assets/icon_username.png",
-                width: 17,
-              ),
-              const SizedBox(width: 12),
-              Expanded(
+            child: Row(
+              children: [
+                Image.asset(
+                  "assets/icon_username.png",
+                  width: 17,
+                ),
+                const SizedBox(width: 12),
+                Expanded(
                   child: TextFormField(
-                style: primaryTextStyle,
-                decoration: InputDecoration.collapsed(
-                    hintText: "Username", hintStyle: subtitleTextStyle),
-              ))
-            ]),
+                    controller: usernameController,
+                    style: primaryTextStyle,
+                    decoration: InputDecoration.collapsed(
+                        hintText: "Username", hintStyle: subtitleTextStyle),
+                  ),
+                ),
+              ],
+            ),
           )
         ]),
       );
@@ -126,24 +176,25 @@ class _SignUpPageState extends State<SignUpPage> {
 
     Widget emailInput() {
       return Container(
-          margin: const EdgeInsets.only(top: 20),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                "Email Address",
-                style:
-                    primaryTextStyle.copyWith(fontSize: 16, fontWeight: medium),
+        margin: const EdgeInsets.only(top: 20),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              "Email Address",
+              style:
+                  primaryTextStyle.copyWith(fontSize: 16, fontWeight: medium),
+            ),
+            const SizedBox(height: 12),
+            Container(
+              height: 50,
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              decoration: BoxDecoration(
+                color: backgroundColor2,
+                borderRadius: BorderRadius.circular(12),
               ),
-              const SizedBox(height: 12),
-              Container(
-                height: 50,
-                padding: const EdgeInsets.symmetric(horizontal: 16),
-                decoration: BoxDecoration(
-                  color: backgroundColor2,
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                child: Row(children: [
+              child: Row(
+                children: [
                   Image.asset(
                     "assets/icon_email.png",
                     width: 17,
@@ -153,37 +204,41 @@ class _SignUpPageState extends State<SignUpPage> {
                   ),
                   Expanded(
                     child: TextFormField(
+                      controller: emailController,
                       style: primaryTextStyle,
                       decoration: InputDecoration.collapsed(
                           hintText: "Your Email Address",
                           hintStyle: subtitleTextStyle),
                     ),
                   )
-                ]),
-              )
-            ],
-          ));
+                ],
+              ),
+            )
+          ],
+        ),
+      );
     }
 
     Widget passwordInput() {
       return Container(
-          margin: const EdgeInsets.only(top: 20),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                "Password",
-                style:
-                    primaryTextStyle.copyWith(fontSize: 16, fontWeight: medium),
-              ),
-              const SizedBox(height: 12),
-              Container(
-                height: 50,
-                padding: const EdgeInsets.symmetric(horizontal: 16),
-                decoration: BoxDecoration(
-                    color: backgroundColor2,
-                    borderRadius: BorderRadius.circular(12)),
-                child: Row(children: [
+        margin: const EdgeInsets.only(top: 20),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              "Password",
+              style:
+                  primaryTextStyle.copyWith(fontSize: 16, fontWeight: medium),
+            ),
+            const SizedBox(height: 12),
+            Container(
+              height: 50,
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              decoration: BoxDecoration(
+                  color: backgroundColor2,
+                  borderRadius: BorderRadius.circular(12)),
+              child: Row(
+                children: [
                   Image.asset(
                     "assets/icon_password.png",
                     width: 17,
@@ -193,6 +248,7 @@ class _SignUpPageState extends State<SignUpPage> {
                   ),
                   Expanded(
                     child: TextFormField(
+                      controller: passwordController,
                       obscureText: _obscureText,
                       style: primaryTextStyle,
                       decoration: InputDecoration.collapsed(
@@ -202,27 +258,31 @@ class _SignUpPageState extends State<SignUpPage> {
                     ),
                   ),
                   TextButton(
-                      onPressed: () {
-                        _toggleShowPassword();
-                      },
-                      child: Text(
-                        _obscureText == true ? "Show" : "Hide",
-                        style: GoogleFonts.poppins(color: priceColor),
-                      ))
-                ]),
-              )
-            ],
-          ));
+                    onPressed: () {
+                      _toggleShowPassword();
+                    },
+                    child: Text(
+                      _obscureText == true ? "Show" : "Hide",
+                      style: GoogleFonts.poppins(color: priceColor),
+                    ),
+                  )
+                ],
+              ),
+            )
+          ],
+        ),
+      );
     }
 
     Widget signInButton() {
+      // return LoadingButton();
       return Container(
         height: 50,
         width: double.infinity,
         margin: const EdgeInsets.only(top: 30),
         child: TextButton(
           onPressed: () {
-            Navigator.pushNamed(context, "/home");
+            handleSignUp();
           },
           style: TextButton.styleFrom(
               backgroundColor: primaryColor,
@@ -271,7 +331,7 @@ class _SignUpPageState extends State<SignUpPage> {
                 username(),
                 emailInput(),
                 passwordInput(),
-                signInButton(),
+                _isLoading ? const LoadingButton() : signInButton(),
                 const Spacer(),
                 footer()
               ],
