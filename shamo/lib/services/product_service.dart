@@ -21,7 +21,7 @@ class ProductService {
       log(data.toString());
       List<ProductModel> products = [];
       for (var item in data) {
-        products.add(ProductModel.toJson(item));
+        products.add(ProductModel.fromJson(item));
       }
       log("products => $products");
       return products;

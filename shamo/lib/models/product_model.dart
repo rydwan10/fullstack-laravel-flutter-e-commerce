@@ -23,7 +23,7 @@ class ProductModel {
       this.updatedAt,
       this.galleries});
 
-  factory ProductModel.toJson(Map<String, dynamic> json) {
+  factory ProductModel.fromJson(Map<String, dynamic> json) {
     return ProductModel(
       id: json['id'],
       name: json['name'],
