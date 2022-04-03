@@ -1,10 +1,12 @@
+import 'dart:developer';
+
 class UserModel {
-  int id = 0;
-  String name = "";
-  String email = "";
-  String username = "";
-  String profilePhotoUrl = "";
-  String? token = "";
+  int id;
+  String name;
+  String email;
+  String username;
+  String profilePhotoUrl;
+  String token;
 
   UserModel(
       {required this.id,
@@ -14,13 +16,16 @@ class UserModel {
       required this.profilePhotoUrl,
       required this.token});
 
-  UserModel.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    name = json['name'];
-    email = json['email'];
-    username = json['username'];
-    profilePhotoUrl = json['profile_photo_url'];
-    token = json['token'];
+  factory UserModel.fromJson(Map<String, dynamic> json) {
+    // log(json['token'].toString());
+    return UserModel(
+      id: json['id'],
+      name: json['name'],
+      email: json['email'],
+      username: json['username'],
+      profilePhotoUrl: json['profile_photo_url'],
+      token: json['token'].toString(),
+    );
   }
 
   Map<String, dynamic> toJson() {

@@ -1,11 +1,12 @@
 import 'dart:convert';
 import 'dart:developer';
 
+import 'package:shamo/environment/global_env.dart';
 import 'package:shamo/models/product_model.dart';
 import 'package:http/http.dart' as http;
 
 class ProductService {
-  String baseUrl = "http://192.168.222.140:8000/api";
+  String baseUrl = GlobalEnv.localAPI;
 
   Future<List<ProductModel>> getProducts() async {
     var url = "$baseUrl/products";

@@ -1,9 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:shamo/models/product_model.dart';
+import 'package:shamo/pages/detail_chat_page.dart';
+import 'package:shamo/providers/cart_provider.dart';
+import 'package:shamo/providers/wishlist_provider.dart';
 import 'package:shamo/theme.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 
 class ProductPage extends StatefulWidget {
-  ProductPage({Key? key}) : super(key: key);
+  final ProductModel product;
+  ProductPage({Key? key, required this.product}) : super(key: key);
 
   @override
   State<ProductPage> createState() => _ProductPageState();
@@ -30,10 +36,11 @@ class _ProductPageState extends State<ProductPage> {
 
   int currentIndex = 0;
 
-  bool isWishlist = true;
-
   @override
   Widget build(BuildContext context) {
+    WishlistProvider wishlistProvider = Provider.of<WishlistProvider>(context);
+    CartProvider cartProvider = Provider.of<CartProvider>(context);
+
     Future<void> showSuccessDialog() async {
       return showDialog(
         context: context,
@@ -83,12 +90,12 @@ class _ProductPageState extends State<ProductPage> {
                   const SizedBox(
                     height: 20,
                   ),
-                  Container(
+                  SizedBox(
                     width: 154,
                     height: 44,
                     child: TextButton(
                       onPressed: () {
-                        print("Kontolodon");
+                        Navigator.pushNamed(context, "/cart");
                       },
                       style: TextButton.styleFrom(
                         backgroundColor: primaryColor,
@@ -170,10 +177,10 @@ class _ProductPageState extends State<ProductPage> {
             ),
           ),
           CarouselSlider(
-            items: images
+            items: widget.product.galleries!
                 .map(
-                  (e) => Image.asset(
-                    e,
+                  (e) => Image.network(
+                    e.url,
                     width: MediaQuery.of(context).size.width,
                     height: 310,
                     fit: BoxFit.cover,
@@ -194,7 +201,7 @@ class _ProductPageState extends State<ProductPage> {
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
-            children: images.map((e) {
+            children: widget.product.galleries!.map((e) {
               index++;
               return indicator(index);
             }).toList(),
@@ -208,6 +215,7 @@ class _ProductPageState extends State<ProductPage> {
       return Container(
         margin: const EdgeInsets.only(top: 17),
         width: double.infinity,
+        height: MediaQuery.of(context).size.height / 1.6,
         decoration: BoxDecoration(
           borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
           color: backgroundColor1,
@@ -229,7 +237,7 @@ class _ProductPageState extends State<ProductPage> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          "TERREX URBAN LOW",
+                          widget.product.name,
                           style: primaryTextStyle.copyWith(
                             fontSize: 18,
                             fontWeight: semibold,
@@ -237,7 +245,7 @@ class _ProductPageState extends State<ProductPage> {
                           ),
                         ),
                         Text(
-                          "Hiking",
+                          widget.product.category!.name,
                           style: secondaryTextStyle.copyWith(
                             fontSize: 12,
                             fontWeight: regular,
@@ -248,15 +256,17 @@ class _ProductPageState extends State<ProductPage> {
                   ),
                   GestureDetector(
                     onTap: () {
-                      setState(() {
-                        isWishlist = !isWishlist;
-                      });
+                      wishlistProvider.setProduct(widget.product);
+
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(
+                          duration: const Duration(milliseconds: 800),
                           backgroundColor:
-                              isWishlist ? secondaryColor : alertColor,
+                              wishlistProvider.isWishlist(widget.product)
+                                  ? secondaryColor
+                                  : alertColor,
                           content: Text(
-                            isWishlist
+                            wishlistProvider.isWishlist(widget.product)
                                 ? "Item has been added to the wishlist"
                                 : "Item has been removed from the wishlist",
                             textAlign: TextAlign.center,
@@ -265,7 +275,7 @@ class _ProductPageState extends State<ProductPage> {
                       );
                     },
                     child: Image.asset(
-                      isWishlist
+                      wishlistProvider.isWishlist(widget.product)
                           ? "assets/button_wishlist_blue.png"
                           : "assets/button_wishlist.png",
                       width: 46,
@@ -297,7 +307,7 @@ class _ProductPageState extends State<ProductPage> {
                     ),
                   ),
                   Text(
-                    "\$143,98",
+                    "\$${widget.product.price}",
                     style: priceTextStyle.copyWith(
                       fontWeight: bold,
                       fontSize: 16,
@@ -326,7 +336,7 @@ class _ProductPageState extends State<ProductPage> {
                   ),
                   const SizedBox(height: 12),
                   Text(
-                    "Unpaved trails and mixed surfaces are easy when you have the traction and support you need. Casual enough for the daily commute.",
+                    widget.product.description,
                     style: subtitleTextStyle.copyWith(
                       fontWeight: light,
                     ),
@@ -383,48 +393,6 @@ class _ProductPageState extends State<ProductPage> {
                 bottom: 35,
               ),
               // padding: EdgeInsets.only(bottom:double.infinity),
-              child: Row(
-                children: [
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.pushNamed(context, '/detail-chat');
-                    },
-                    child: Container(
-                      width: 54,
-                      height: 54,
-                      decoration: const BoxDecoration(
-                        image: DecorationImage(
-                          image: AssetImage("assets/button_chat.png"),
-                        ),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(
-                    width: 16,
-                  ),
-                  Expanded(
-                    child: SizedBox(
-                      height: 54,
-                      child: TextButton(
-                        onPressed: () {
-                          showSuccessDialog();
-                        },
-                        style: TextButton.styleFrom(
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                          backgroundColor: primaryColor,
-                        ),
-                        child: Text(
-                          "Add to Cart",
-                          style: primaryTextStyle.copyWith(
-                              fontSize: 16, fontWeight: semibold),
-                        ),
-                      ),
-                    ),
-                  )
-                ],
-              ),
             ),
           ],
         ),
@@ -438,6 +406,62 @@ class _ProductPageState extends State<ProductPage> {
           header(),
           content(),
         ],
+      ),
+      bottomNavigationBar: Container(
+        color: backgroundColor2,
+        child: Padding(
+          padding: const EdgeInsets.all(5.0),
+          child: TextButton(
+            onPressed: () {},
+            child: Row(
+              children: [
+                GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                DetailChatPage(product: widget.product)));
+                  },
+                  child: Container(
+                    width: 54,
+                    height: 54,
+                    decoration: const BoxDecoration(
+                      image: DecorationImage(
+                        image: AssetImage("assets/button_chat.png"),
+                      ),
+                    ),
+                  ),
+                ),
+                const SizedBox(
+                  width: 16,
+                ),
+                Expanded(
+                  child: SizedBox(
+                    height: 54,
+                    child: TextButton(
+                      onPressed: () {
+                        cartProvider.addCart(widget.product);
+                        showSuccessDialog();
+                      },
+                      style: TextButton.styleFrom(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        backgroundColor: primaryColor,
+                      ),
+                      child: Text(
+                        "Add to Cart",
+                        style: primaryTextStyle.copyWith(
+                            fontSize: 16, fontWeight: semibold),
+                      ),
+                    ),
+                  ),
+                )
+              ],
+            ),
+          ),
+        ),
       ),
     );
   }

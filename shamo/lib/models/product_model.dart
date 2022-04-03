@@ -55,3 +55,8 @@ class ProductModel {
     };
   }
 }
+
+class UninitializeProductModel extends ProductModel {
+  UninitializeProductModel()
+      : super(name: "", description: "", tags: "", price: 0, id: 0);
+}

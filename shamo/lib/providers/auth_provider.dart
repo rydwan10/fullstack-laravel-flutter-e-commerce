@@ -45,7 +45,7 @@ class AuthProvider with ChangeNotifier {
       _user = user;
       return true;
     } catch (e) {
-      log('in catch');
+      log(e.toString());
       return false;
     }
   }

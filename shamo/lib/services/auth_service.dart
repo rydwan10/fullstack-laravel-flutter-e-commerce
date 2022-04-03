@@ -1,11 +1,12 @@
 import 'dart:convert';
 import 'dart:developer';
 
+import 'package:shamo/environment/global_env.dart';
 import 'package:shamo/models/user_model.dart';
 import 'package:http/http.dart' as http;
 
 class AuthService {
-  String baseUrl = "http://192.168.222.140:8000/api";
+  String baseUrl = GlobalEnv.localAPI;
 
   Future<UserModel> register(
       {required String name,
@@ -55,13 +56,10 @@ class AuthService {
       body: body,
     );
 
-    log(response.statusCode.toString());
-
     if (response.statusCode == 200) {
       var data = jsonDecode(response.body)['data'];
+      data['user']['token'] = 'Bearer ' + data['access_token'];
       UserModel user = UserModel.fromJson(data['user']);
-      user.token = 'Bearer ' + data['access_token'];
-      log(user.token != null ? user.token.toString() : 'token does not exist');
       return user;
     } else {
       throw Exception("Failed to login");
