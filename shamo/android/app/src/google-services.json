@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "549623223576",
+    "project_id": "shamo-rydwan",
+    "storage_bucket": "shamo-rydwan.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:549623223576:android:d7c52f9cf5c9846ee47a6d",
+        "android_client_info": {
+          "package_name": "com.rydwan.shamo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "549623223576-sdcdn4aarjidkubkpppl4senkrgci7kc.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCVDedCdP_uI709szbwV3YYok7N6OjZ7GE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "549623223576-sdcdn4aarjidkubkpppl4senkrgci7kc.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "549623223576-gn0dvl3n2hu36et4d0g6j5l9bkk5aj5q.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.rydwan.shamo"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

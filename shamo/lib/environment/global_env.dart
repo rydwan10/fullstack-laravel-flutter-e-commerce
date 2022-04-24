@@ -1,3 +1,3 @@
 class GlobalEnv {
-  static const String localAPI = "http://192.168.222.122:8000/api";
+  static const String localAPI = "http://10.0.2.2:8000/api";
 }
