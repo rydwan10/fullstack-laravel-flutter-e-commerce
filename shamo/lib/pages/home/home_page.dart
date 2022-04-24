@@ -33,10 +33,14 @@ class HomePage extends StatelessWidget {
                     Text(
                       "Hallo, ${user.name}",
                       style: primaryTextStyle.copyWith(
-                          fontSize: 24, fontWeight: semibold),
+                        fontSize: 24,
+                        fontWeight: semibold,
+                      ),
                     ),
-                    Text("@${user.username}",
-                        style: subtitleTextStyle.copyWith(fontSize: 16))
+                    Text(
+                      "@${user.username}",
+                      style: subtitleTextStyle.copyWith(fontSize: 16),
+                    )
                   ],
                 ),
               ),

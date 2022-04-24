@@ -17,7 +17,6 @@ class UserModel {
       required this.token});
 
   factory UserModel.fromJson(Map<String, dynamic> json) {
-    // log(json['token'].toString());
     return UserModel(
       id: json['id'],
       name: json['name'],

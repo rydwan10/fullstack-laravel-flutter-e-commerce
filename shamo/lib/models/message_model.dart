@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:shamo/models/product_model.dart';
 import 'package:shamo/widgets/product_tile.dart';
 
@@ -22,17 +24,18 @@ class MessageModel {
       this.product});
 
   factory MessageModel.fromJson(Map<String, dynamic> json) {
+    log("asdfsdf ${json['product'].isEmpty}");
     return MessageModel(
         userId: json['userId'],
         userName: json['userName'],
         userImage: json['userImage'],
         isFromUser: json['isFromUser'],
         message: json['message'],
-        product: json['product'] == {}
+        product: json['product'].isEmpty
             ? UninitializeProductModel()
             : ProductModel.fromJson(json['product']),
-        createdAt: DateTime.parse(json['createdAt']),
-        updatedAt: DateTime.parse(json['updatedAt']));
+        createdAt: DateTime.parse(json['created_at']),
+        updatedAt: DateTime.parse(json['updated_at']));
   }
 
   Map<String, dynamic> toJson() {
@@ -43,8 +46,8 @@ class MessageModel {
       'isFromUser': isFromUser,
       'product': product is UninitializeProductModel ? {} : product!.toJson(),
       'message': message,
-      'createdAt': createdAt.toString(),
-      'updatedAt': updatedAt.toString(),
+      'created_at': createdAt.toString(),
+      'updated_at': updatedAt.toString(),
     };
   }
 }
