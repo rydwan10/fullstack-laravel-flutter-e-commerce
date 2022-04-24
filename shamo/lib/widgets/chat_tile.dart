@@ -3,8 +3,12 @@ import 'package:shamo/models/product_model.dart';
 import 'package:shamo/pages/detail_chat_page.dart';
 import 'package:shamo/theme.dart';
 
+import '../models/message_model.dart';
+
 class ChatTile extends StatelessWidget {
-  const ChatTile({Key? key}) : super(key: key);
+  final MessageModel? message;
+
+  const ChatTile({Key? key, this.message}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +43,7 @@ class ChatTile extends StatelessWidget {
                             fontWeight: regular, fontSize: 15),
                       ),
                       Text(
-                        "Good night, This item is on the way to your place",
+                        message!.message,
                         style: secondaryTextStyle.copyWith(
                           fontWeight: light,
                           fontSize: 14,

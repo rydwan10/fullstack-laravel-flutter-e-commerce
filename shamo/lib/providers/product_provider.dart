@@ -18,7 +18,6 @@ class ProductProvider with ChangeNotifier {
       List<ProductModel> products = await ProductService().getProducts();
       _products = products;
     } catch (e) {
-      log("hai");
       log(e.toString());
     }
   }

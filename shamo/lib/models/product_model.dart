@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:shamo/models/category_model.dart';
 import 'package:shamo/models/gallery_model.dart';
 
@@ -27,7 +29,8 @@ class ProductModel {
     return ProductModel(
       id: json['id'],
       name: json['name'],
-      price: double.parse(json['price']),
+      price:
+          json['price'] is String ? double.parse(json['price']) : json['price'],
       description: json['description'],
       tags: json['tags'],
       category: json['category'] == null
@@ -52,6 +55,8 @@ class ProductModel {
       'tags': tags,
       'category': category?.toJson(),
       'galleries': galleries?.map((gallery) => gallery.toJson()).toList(),
+      'created_at': createdAt.toString(),
+      'updated_at': updatedAt.toString()
     };
   }
 }
