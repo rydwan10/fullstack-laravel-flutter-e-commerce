@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shamo/models/message_model.dart';
 import 'package:shamo/providers/auth_provider.dart';
+import 'package:shamo/providers/page_provider.dart';
 import 'package:shamo/services/message_service.dart';
 import 'package:shamo/theme.dart';
 import 'package:shamo/widgets/chat_tile.dart';
@@ -12,6 +13,7 @@ class ChatPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     AuthProvider authProvider = Provider.of<AuthProvider>(context);
+    PageProvider pageProvider = Provider.of<PageProvider>(context);
 
     Widget header() {
       return AppBar(
@@ -72,7 +74,9 @@ class ChatPage extends StatelessWidget {
                       fontSize: 16,
                     ),
                   ),
-                  onPressed: () {},
+                  onPressed: () {
+                    pageProvider.currentIndex = 0;
+                  },
                   style: TextButton.styleFrom(
                     backgroundColor: primaryColor,
                     padding: const EdgeInsets.symmetric(
@@ -97,6 +101,7 @@ class ChatPage extends StatelessWidget {
               .getMessagesByUserId(userId: authProvider.user.id),
           builder: (context, snapshot) {
             if (snapshot.hasData) {
+              //print("haiiiii");
               if (snapshot.data!.isEmpty) {
                 return emptyChat();
               }

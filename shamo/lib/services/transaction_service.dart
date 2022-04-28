@@ -32,7 +32,7 @@ class TransactionService {
       body: jsonEncode(body),
     );
 
-    log(response.body);
+    //log(response.body);
 
     if (response.statusCode == 200) {
       return true;

@@ -195,7 +195,7 @@ class _DetailChatPageState extends State<DetailChatPage> {
           stream: MessageService()
               .getMessagesByUserId(userId: authProvider.user.id),
           builder: (context, snapshot) {
-            log(snapshot.hasData.toString());
+            //log(snapshot.hasData.toString());
             if (snapshot.hasError) {
               // log(snapshot.error.toString());
             }

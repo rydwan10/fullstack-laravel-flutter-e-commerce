@@ -16,7 +16,7 @@ class TransactionProvider with ChangeNotifier {
         return false;
       }
     } catch (e) {
-      log(e.toString());
+      //log(e.toString());
       return false;
     }
   }

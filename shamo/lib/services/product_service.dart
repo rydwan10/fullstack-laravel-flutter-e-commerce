@@ -23,7 +23,7 @@ class ProductService {
       for (var item in data) {
         products.add(ProductModel.fromJson(item));
       }
-      log("products => $products");
+      //log("products => $products");
       return products;
     } else {
       throw Exception("Failed to load products");

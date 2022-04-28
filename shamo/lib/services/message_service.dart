@@ -43,7 +43,7 @@ class MessageService {
         'product': product is UninitializeProductModel ? {} : product.toJson(),
         'created_at': DateTime.now().toString(),
         'updated_at': DateTime.now().toString()
-      }).then((value) => log('Message sucessfully send'));
+      }).then((value) => print('Message sucessfully send'));
     } catch (e) {
       throw Exception("Message failed to send");
     }

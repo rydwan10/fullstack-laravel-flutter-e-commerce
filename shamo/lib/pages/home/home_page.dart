@@ -50,7 +50,8 @@ class HomePage extends StatelessWidget {
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   image: DecorationImage(
-                    image: NetworkImage(user.profilePhotoUrl),
+                    image: NetworkImage(
+                        "https://scontent.fcgk10-1.fna.fbcdn.net/v/t39.30808-1/279132916_3182820888621748_3917656638179521425_n.jpg?stp=dst-jpg_p160x160&_nc_cat=105&ccb=1-5&_nc_sid=7206a8&_nc_eui2=AeF6ReIaak7PqVhIZ8_WDurzvhrSWeMQRru-GtJZ4xBGu7AWdKL6qziGSQdBL_4OZkEEawFm0Y6UQlKi-XKtnV0m&_nc_ohc=Lpafh2LOgGoAX95gKnz&_nc_ht=scontent.fcgk10-1.fna&oh=00_AT8L_Pw2XzqJ1ffXEdOj1GCNNUMdf13A9ig1Cus-UpgBHg&oe=626BEE06"),
                   ),
                 ),
               )

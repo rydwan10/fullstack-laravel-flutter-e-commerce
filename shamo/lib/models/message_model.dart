@@ -24,7 +24,7 @@ class MessageModel {
       this.product});
 
   factory MessageModel.fromJson(Map<String, dynamic> json) {
-    log("asdfsdf ${json['product'].isEmpty}");
+    //log("asdfsdf ${json['product'].isEmpty}");
     return MessageModel(
         userId: json['userId'],
         userName: json['userName'],
