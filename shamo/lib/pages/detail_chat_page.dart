@@ -138,54 +138,57 @@ class _DetailChatPageState extends State<DetailChatPage> {
     }
 
     Widget chatInput() {
-      return Container(
-        margin: const EdgeInsets.all(20),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            widget.product is UninitializeProductModel
-                ? const SizedBox()
-                : productPreview(),
-            Row(
-              children: [
-                Expanded(
-                  child: Container(
-                    height: 45,
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 16,
-                    ),
-                    decoration: BoxDecoration(
-                      color: backgroundColor4,
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    child: Center(
-                      child: TextFormField(
-                        controller: messageController,
-                        style: primaryTextStyle,
-                        decoration: InputDecoration.collapsed(
-                          hintText: "Type Message . . .",
-                          hintStyle: subtitleTextStyle,
+      return StickyBottomAppBar(
+        child: Container(
+          color: backgroundColor3,
+          margin: const EdgeInsets.all(20),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              widget.product is UninitializeProductModel
+                  ? const SizedBox()
+                  : productPreview(),
+              Row(
+                children: [
+                  Expanded(
+                    child: Container(
+                      height: 45,
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 16,
+                      ),
+                      decoration: BoxDecoration(
+                        color: backgroundColor4,
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: Center(
+                        child: TextFormField(
+                          controller: messageController,
+                          style: primaryTextStyle,
+                          decoration: InputDecoration.collapsed(
+                            hintText: "Type Message . . .",
+                            hintStyle: subtitleTextStyle,
+                          ),
                         ),
                       ),
                     ),
                   ),
-                ),
-                const SizedBox(
-                  width: 20,
-                ),
-                GestureDetector(
-                  onTap: () {
-                    handleAddMessage();
-                  },
-                  child: Image.asset(
-                    "assets/button_send.png",
-                    width: 45,
+                  const SizedBox(
+                    width: 20,
                   ),
-                ),
-              ],
-            ),
-          ],
+                  GestureDetector(
+                    onTap: () {
+                      handleAddMessage();
+                    },
+                    child: Image.asset(
+                      "assets/button_send.png",
+                      width: 45,
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
         ),
       );
     }
@@ -225,8 +228,22 @@ class _DetailChatPageState extends State<DetailChatPage> {
         child: header(),
         preferredSize: const Size.fromHeight(70),
       ),
+      resizeToAvoidBottomInset: true,
       bottomNavigationBar: chatInput(),
       body: content(),
+    );
+  }
+}
+
+class StickyBottomAppBar extends StatelessWidget {
+  final Container child;
+  StickyBottomAppBar({@required required this.child});
+
+  @override
+  Widget build(BuildContext context) {
+    return Transform.translate(
+      offset: Offset(0.0, -1 * MediaQuery.of(context).viewInsets.bottom),
+      child: child,
     );
   }
 }
